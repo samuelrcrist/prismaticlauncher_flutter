@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'data/launch.dart';
+import 'views/home.dart';
+import 'views/smapi.dart';
 
 void main() {
   runApp(const PrismaticLauncher());
@@ -12,11 +13,11 @@ class PrismaticLauncher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Prismatic Launcher',
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const prismatic_home(title: 'Flutter Demo Home Page'),
+      home: const prismatic_home(title: 'Prismatic Launcher - Home'),
     );
   }
 }
@@ -31,8 +32,11 @@ class prismatic_home extends StatefulWidget {
 
 // fuck this stupid chungus case error
 class _prismatic_homeState extends State<prismatic_home> {
+  static const List<Widget> _pages = [
+    PristmaticHome(),
+    SMAPIpage(),
+  ];
   int _selectedIndex = 0;
-  String path = r"tmp";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,26 +55,19 @@ class _prismatic_homeState extends State<prismatic_home> {
               NavigationRailDestination(
                 icon: Text("balls"),
                 label: Text("balls"),
+              ),
+              NavigationRailDestination(
+                icon: Text("SMAPI"),
+                label: Text("SMAPI")
               )
             ],
           ),
           const VerticalDivider(width: 1, thickness: 1,),
           Expanded(
-            child: Scaffold(
-              appBar: AppBar(title: Text("Home"),),
-              body: Center(
-                child: FloatingActionButton(
-                  onPressed: () async {
-                    try {
-                      await launchGame(path);
-                    } catch (e) {
-                      print('failed $e');
-                    }
-                  },
-                  child: Icon(Icons.play_arrow),
-                )
-              ,)
-            ),
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: _pages,
+            )
           ),
         ],
       )
