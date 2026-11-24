@@ -1,12 +1,17 @@
 import 'dart:io';
 
-Future<void> launchGame(String path) async {
-  final gameEXE = File(path);
+String winPath = r"E:\SteamLibrary\steamapps\common\Stardew Valley";
 
-  Process.start(
-    path,
-    [],
-    workingDirectory: gameEXE.parent.path);
+Future<void> launchGame(bool isModded) async {
+  final steam = 'steam://run/413150';
+  if(Platform.isWindows) {
+    if(isModded) {
+      await Process.run('cmd', ['/c', 'start', '', '$winPath\\StardewModdingAPI.exe'],
+      workingDirectory: winPath);
+    }else{
+      await Process.run('cmd', ['/c', 'start', steam]);
+    }
+  }
 }
 
 

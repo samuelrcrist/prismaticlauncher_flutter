@@ -25,7 +25,6 @@ class PrismaticLauncher extends StatelessWidget {
 class prismatic_home extends StatefulWidget {
   const prismatic_home({super.key, required this.title});
   final String title;
-
   @override
   State<prismatic_home> createState() => _prismatic_homeState();
 }
@@ -40,38 +39,43 @@ class _prismatic_homeState extends State<prismatic_home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          NavigationRail(
-            selectedIndex: _selectedIndex,
-            labelType: NavigationRailLabelType.none,
-            onDestinationSelected: (int index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            destinations: const <NavigationRailDestination>[
-              NavigationRailDestination(
-                icon: Text("balls"),
-                label: Text("balls"),
-              ),
-              NavigationRailDestination(
-                icon: Text("SMAPI"),
-                label: Text("SMAPI")
+      body: Center(
+        child:
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            NavigationRail(
+              selectedIndex: _selectedIndex,
+              labelType: NavigationRailLabelType.none,
+              indicatorShape: const RoundedRectangleBorder(),
+              onDestinationSelected: (int index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+              destinations: const <NavigationRailDestination>[
+                NavigationRailDestination(
+                  icon: Text("Home"),
+                  label: Text("Home"),
+
+                ),
+                NavigationRailDestination(
+                  icon: Text("SMAPI"),
+                  label: Text("SMAPI")
+                )
+              ],
+            ),
+            const VerticalDivider(width: 1, thickness: 1,),
+            Expanded(
+              child: IndexedStack(
+                index: _selectedIndex,
+                children: _pages,
               )
-            ],
-          ),
-          const VerticalDivider(width: 1, thickness: 1,),
-          Expanded(
-            child: IndexedStack(
-              index: _selectedIndex,
-              children: _pages,
-            )
-          ),
-        ],
+            ),
+          ],
+        )
       )
-    );
-  
+      );
+    
+    }
   }
-}

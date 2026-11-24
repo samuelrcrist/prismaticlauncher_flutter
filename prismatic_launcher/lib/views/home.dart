@@ -11,23 +11,43 @@ class PristmaticHome extends StatefulWidget {
 }
 
 class _PrismaticHomeState extends State<PristmaticHome> {
-  String path = r"tmp";
+  bool isModded = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Home"),),
         body: Center(
-          child: FloatingActionButton(
-            onPressed: () async {
-              try {
-                await launchGame(path);
-              } catch (e) {
-                print('failed $e');
-              }
-            },
-            child: Icon(Icons.play_arrow),
-          )
-      ,)
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FloatingActionButton(
+              onPressed: () async {
+                try {
+                  await launchGame(isModded);
+                } catch (e) {
+                  print('failed $e');
+                }
+              },
+              child: Icon(Icons.play_arrow),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Checkbox(
+                  value: isModded,
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                    isModded = newValue ?? false;
+                  });
+                  }
+                ),
+                const Text("Launch modded?"),
+              ],
+            )
+          ]
+        ,)
+      )
     );
   }
 }
